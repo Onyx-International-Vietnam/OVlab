@@ -70,35 +70,35 @@ export default function RoomDataPage({
   };
 
   return (
-    <div className="min-h-[calc(100svh-48px)] bg-slate-50 py-8">
-      <div className="container max-w-7xl mx-auto px-4">
+    <div className="min-h-[calc(100svh-48px)] bg-slate-50 py-4 md:py-8">
+      <div className="container max-w-7xl mx-auto px-3 sm:px-4">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-start gap-4 mb-6">
-            <div className="h-14 w-14 rounded-xl bg-slate-900 flex items-center justify-center shadow-sm">
-              <Database className="h-7 w-7 text-white" />
+        <div className="mb-6 md:mb-8">
+          <div className="flex items-start gap-3 md:gap-4 mb-4 md:mb-6">
+            <div className="h-12 w-12 md:h-14 md:w-14 rounded-xl bg-slate-900 flex items-center justify-center shadow-sm flex-shrink-0">
+              <Database className="h-6 w-6 md:h-7 md:w-7 text-white" />
             </div>
-            <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
+            <div className="min-w-0 flex-1">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-1 md:mb-2 break-words">
                 Room Data
               </h1>
-              <p className="text-slate-600 text-base">
-                <span className="font-semibold text-slate-900">{room.title}</span>
-                <span className="text-slate-400 mx-2">•</span>
-                <span>{items.length} {items.length === 1 ? 'dataset' : 'datasets'}</span>
+              <p className="text-slate-600 text-sm md:text-base flex flex-wrap items-center gap-1">
+                <span className="font-semibold text-slate-900 break-words">{room.title}</span>
+                <span className="text-slate-400 hidden sm:inline">•</span>
+                <span className="block sm:inline w-full sm:w-auto">{items.length} {items.length === 1 ? 'dataset' : 'datasets'}</span>
               </p>
             </div>
           </div>
         </div>
 
         <Card className="border-slate-200 shadow-sm bg-white">
-          <CardHeader className="border-b border-slate-100 pb-5">
-            <div className="flex items-center justify-between flex-wrap gap-4">
-              <div>
-                <CardTitle className="text-xl font-semibold text-slate-900 mb-1">Datasets</CardTitle>
-                <CardDescription className="text-sm text-slate-600">Manage and preview your room data</CardDescription>
+          <CardHeader className="border-b border-slate-100 pb-4 md:pb-5 px-4 md:px-6">
+            <div className="flex items-center justify-between flex-wrap gap-3 md:gap-4">
+              <div className="min-w-0 flex-1">
+                <CardTitle className="text-lg md:text-xl font-semibold text-slate-900 mb-1">Datasets</CardTitle>
+                <CardDescription className="text-xs md:text-sm text-slate-600">Manage and preview your room data</CardDescription>
               </div>
-              <Badge variant="secondary" className="bg-slate-100 text-slate-700 font-medium px-3">
+              <Badge variant="secondary" className="bg-slate-100 text-slate-700 font-medium px-2.5 md:px-3 text-xs md:text-sm flex-shrink-0">
                 {items.length} total
               </Badge>
             </div>
@@ -106,75 +106,126 @@ export default function RoomDataPage({
 
           <CardContent className="p-0">
             {items.length === 0 ? (
-              <div className="px-6 py-16 text-center">
-                <div className="h-16 w-16 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-4">
-                  <Database className="h-8 w-8 text-slate-400" />
+              <div className="px-4 md:px-6 py-12 md:py-16 text-center">
+                <div className="h-14 w-14 md:h-16 md:w-16 rounded-full bg-slate-100 flex items-center justify-center mx-auto mb-3 md:mb-4">
+                  <Database className="h-7 w-7 md:h-8 md:w-8 text-slate-400" />
                 </div>
                 <p className="text-sm font-medium text-slate-700 mb-1">No datasets found</p>
-                <p className="text-sm text-slate-500">Upload your first dataset to get started</p>
+                <p className="text-xs md:text-sm text-slate-500">Upload your first dataset to get started</p>
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="bg-slate-50 hover:bg-slate-50">
-                      <TableHead className="font-semibold text-slate-700">Name</TableHead>
-                      <TableHead className="font-semibold text-slate-700">Type</TableHead>
-                      <TableHead className="font-semibold text-slate-700">Size</TableHead>
-                      <TableHead className="font-semibold text-slate-700">Updated</TableHead>
-                      <TableHead className="text-right font-semibold text-slate-700">Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-
-                  <TableBody>
-                    {items.map((d) => (
-                      <TableRow key={d.id} className="hover:bg-slate-50 transition-colors">
-                        <TableCell className="font-medium text-slate-900">
-                          <div className="flex items-center gap-3">
-                            <div className={`h-8 w-8 rounded-lg ${getTypeColor(d.kind)} flex items-center justify-center`}>
-                              {getFileIcon(d.kind)}
-                            </div>
-                            <span>{d.name}</span>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <Badge className={`${getTypeColor(d.kind)} border font-medium uppercase text-xs px-2 py-0.5 gap-1`}>
-                            {getFileIcon(d.kind)}
-                            {d.kind}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="text-slate-600 font-medium">{d.size}</TableCell>
-                        <TableCell className="text-slate-500">
-                          <div className="flex items-center gap-1.5">
-                            <Clock className="h-3.5 w-3.5" />
-                            {d.updatedAt}
-                          </div>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <div className="flex justify-end gap-2">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => setPreviewId(d.id)}
-                              className="gap-1.5 border-slate-300 hover:bg-slate-50"
-                            >
-                              <Eye className="h-3.5 w-3.5" />
-                              Preview
-                            </Button>
-                            <Button 
-                              size="sm"
-                              className="gap-1.5 bg-slate-900 hover:bg-slate-800"
-                            >
-                              <Download className="h-3.5 w-3.5" />
-                              Download
-                            </Button>
-                          </div>
-                        </TableCell>
+              <>
+                {/* Desktop Table View */}
+                <div className="hidden lg:block overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="bg-slate-50 hover:bg-slate-50">
+                        <TableHead className="font-semibold text-slate-700">Name</TableHead>
+                        <TableHead className="font-semibold text-slate-700">Type</TableHead>
+                        <TableHead className="font-semibold text-slate-700">Size</TableHead>
+                        <TableHead className="font-semibold text-slate-700">Updated</TableHead>
+                        <TableHead className="text-right font-semibold text-slate-700">Actions</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
+                    </TableHeader>
+
+                    <TableBody>
+                      {items.map((d) => (
+                        <TableRow key={d.id} className="hover:bg-slate-50 transition-colors">
+                          <TableCell className="font-medium text-slate-900">
+                            <div className="flex items-center gap-3">
+                              <div className={`h-8 w-8 rounded-lg ${getTypeColor(d.kind)} flex items-center justify-center flex-shrink-0`}>
+                                {getFileIcon(d.kind)}
+                              </div>
+                              <span className="truncate">{d.name}</span>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Badge className={`${getTypeColor(d.kind)} border font-medium uppercase text-xs px-2 py-0.5 gap-1`}>
+                              {getFileIcon(d.kind)}
+                              {d.kind}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-slate-600 font-medium">{d.size}</TableCell>
+                          <TableCell className="text-slate-500">
+                            <div className="flex items-center gap-1.5">
+                              <Clock className="h-3.5 w-3.5" />
+                              {d.updatedAt}
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex justify-end gap-2">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => setPreviewId(d.id)}
+                                className="gap-1.5 border-slate-300 hover:bg-slate-50"
+                              >
+                                <Eye className="h-3.5 w-3.5" />
+                                Preview
+                              </Button>
+                              <Button 
+                                size="sm"
+                                className="gap-1.5 bg-slate-900 hover:bg-slate-800"
+                              >
+                                <Download className="h-3.5 w-3.5" />
+                                Download
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+
+                {/* Mobile/Tablet Card View */}
+                <div className="lg:hidden divide-y divide-slate-100">
+                  {items.map((d) => (
+                    <div key={d.id} className="p-4 hover:bg-slate-50 transition-colors">
+                      <div className="flex items-start gap-3 mb-3">
+                        <div className={`h-10 w-10 rounded-lg ${getTypeColor(d.kind)} flex items-center justify-center flex-shrink-0`}>
+                          {getFileIcon(d.kind)}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <h3 className="font-medium text-slate-900 text-sm mb-1 break-words">{d.name}</h3>
+                          <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500">
+                            <Badge className={`${getTypeColor(d.kind)} border font-medium uppercase text-xs px-2 py-0.5 gap-1`}>
+                              {getFileIcon(d.kind)}
+                              {d.kind}
+                            </Badge>
+                            <span>•</span>
+                            <span className="font-medium">{d.size}</span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center gap-1.5 text-xs text-slate-500 mb-3 pl-13">
+                        <Clock className="h-3 w-3" />
+                        <span>{d.updatedAt}</span>
+                      </div>
+
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setPreviewId(d.id)}
+                          className="gap-1.5 border-slate-300 hover:bg-slate-50 flex-1 text-xs"
+                        >
+                          <Eye className="h-3.5 w-3.5" />
+                          Preview
+                        </Button>
+                        <Button 
+                          size="sm"
+                          className="gap-1.5 bg-slate-900 hover:bg-slate-800 flex-1 text-xs"
+                        >
+                          <Download className="h-3.5 w-3.5" />
+                          Download
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
             )}
           </CardContent>
         </Card>
@@ -182,17 +233,17 @@ export default function RoomDataPage({
 
       {/* Preview Dialog */}
       <Dialog open={!!previewId} onOpenChange={() => setPreviewId(null)}>
-        <DialogContent className="sm:max-w-4xl border-slate-200 shadow-lg">
-          <DialogHeader className="border-b border-slate-100 pb-4">
-            <DialogTitle className="text-xl font-semibold text-slate-900 flex items-center gap-3">
-              <div className={`h-9 w-9 rounded-lg ${current ? getTypeColor(current.kind) : 'bg-slate-50'} flex items-center justify-center`}>
+        <DialogContent className="sm:max-w-4xl max-w-[calc(100vw-2rem)] border-slate-200 shadow-lg max-h-[90vh] overflow-hidden flex flex-col">
+          <DialogHeader className="border-b border-slate-100 pb-3 md:pb-4 flex-shrink-0">
+            <DialogTitle className="text-lg md:text-xl font-semibold text-slate-900 flex items-center gap-2 md:gap-3 pr-8">
+              <div className={`h-8 w-8 md:h-9 md:w-9 rounded-lg ${current ? getTypeColor(current.kind) : 'bg-slate-50'} flex items-center justify-center flex-shrink-0`}>
                 {current && getFileIcon(current.kind)}
               </div>
-              {current?.name}
+              <span className="truncate">{current?.name}</span>
             </DialogTitle>
           </DialogHeader>
 
-          <div className="max-h-[70vh] overflow-auto">
+          <div className="overflow-auto flex-1 -mx-6 px-6 md:-mx-0 md:px-0">
             {current?.kind === "video" && current.url ? (
               <video controls poster={current.poster} className="w-full rounded-lg">
                 <source src={current.url} />
@@ -207,12 +258,12 @@ export default function RoomDataPage({
                 />
               </div>
             ) : current?.kind === "csv" ? (
-              <div className="bg-white rounded-lg border border-slate-200 p-4">
-                <div className="flex items-center gap-2 mb-3 pb-3 border-b border-slate-200">
-                  <FileText className="h-4 w-4 text-green-600" />
-                  <span className="font-medium text-slate-700 text-sm">CSV Preview</span>
+              <div className="bg-white rounded-lg border border-slate-200 p-3 md:p-4">
+                <div className="flex items-center gap-2 mb-2 md:mb-3 pb-2 md:pb-3 border-b border-slate-200">
+                  <FileText className="h-4 w-4 text-green-600 flex-shrink-0" />
+                  <span className="font-medium text-slate-700 text-xs md:text-sm">CSV Preview</span>
                 </div>
-                <pre className="rounded-lg bg-slate-50 p-4 text-sm text-slate-700 font-mono border border-slate-200 overflow-x-auto">
+                <pre className="rounded-lg bg-slate-50 p-3 md:p-4 text-xs md:text-sm text-slate-700 font-mono border border-slate-200 overflow-x-auto">
                   time,force{"\n"}
                   0.0,0{"\n"}
                   0.1,22{"\n"}
@@ -223,12 +274,12 @@ export default function RoomDataPage({
                 </pre>
               </div>
             ) : current?.kind === "pdf" ? (
-              <div className="bg-slate-50 rounded-lg border border-slate-200 p-12 text-center">
-                <div className="h-14 w-14 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-3">
-                  <File className="h-7 w-7 text-red-600" />
+              <div className="bg-slate-50 rounded-lg border border-slate-200 p-8 md:p-12 text-center">
+                <div className="h-12 w-12 md:h-14 md:w-14 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-2 md:mb-3">
+                  <File className="h-6 w-6 md:h-7 md:w-7 text-red-600" />
                 </div>
                 <p className="text-sm font-medium text-slate-700 mb-1">PDF Preview Not Available</p>
-                <p className="text-sm text-slate-500">Click Download to view the full document</p>
+                <p className="text-xs md:text-sm text-slate-500">Click Download to view the full document</p>
               </div>
             ) : null}
           </div>
